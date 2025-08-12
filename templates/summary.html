@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Review & Confirm{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Review your registration</h1>
+        <dl class="row">
+          <dt class="col-sm-3">Semester</dt>
+          <dd class="col-sm-9">{{ form.semester }}</dd>
+          <dt class="col-sm-3">Program</dt>
+          <dd class="col-sm-9">{{ form.program }}</dd>
+          <dt class="col-sm-3">Year Level</dt>
+          <dd class="col-sm-9">{{ form.year_level }}</dd>
+          <dt class="col-sm-3">Courses</dt>
+          <dd class="col-sm-9">{{ form.courses_csv }}</dd>
+          <dt class="col-sm-3">Notes</dt>
+          <dd class="col-sm-9">{{ form.notes if form.notes else '—' }}</dd>
+        </dl>
+        <form method="POST" class="d-flex gap-2">
+          <button name="action" value="edit" class="btn btn-outline-secondary" type="submit">Edit</button>
+          <button name="action" value="confirm" class="btn btn-success" type="submit">Confirm & Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

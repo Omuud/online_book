@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row mt-3">
+  <div class="col-12 d-flex justify-content-between align-items-center">
+    <h1 class="h4">Welcome, {{ session.get('full_name') }}</h1>
+    <a href="{{ url_for('register') }}" class="btn btn-primary">New Registration</a>
+  </div>
+  <div class="col-12 mt-3">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h5">Recent Registrations</h2>
+        {% if recent %}
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead>
+              <tr>
+                <th>Semester</th>
+                <th>Program</th>
+                <th>Year</th>
+                <th>Courses</th>
+                <th>Status</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in recent %}
+              <tr>
+                <td>{{ r['semester'] }}</td>
+                <td>{{ r['program'] }}</td>
+                <td>{{ r['year_level'] }}</td>
+                <td><code>{{ r['courses_csv'] }}</code></td>
+                <td><span class="badge bg-{{ 'success' if r['status']=='submitted' else 'secondary' }}">{{ r['status'] }}</span></td>
+                <td>{{ r['created_at'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+          <p class="text-muted mb-0">No registrations yet. Start by creating a new one.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
