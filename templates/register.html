@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block title %}Registration | Student Registration{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Semester Registration</h1>
+    {% if confirmed %}
+      <div class="notice">
+        You have a confirmed registration on {{ confirmed.confirmed_at }}. You can update it below and confirm again.
+      </div>
+    {% endif %}
+    <form method="post" action="{{ url_for('register') }}" class="form-grid" id="reg-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+
+      <label for="full_name">Full Name</label>
+      <input id="full_name" name="full_name" type="text" value="{{ form.full_name or '' }}" required />
+
+      <label for="semester">Semester</label>
+      <input id="semester" name="semester" type="text" placeholder="e.g., Fall 2025" value="{{ form.semester or '' }}" required />
+
+      <label for="program">Program</label>
+      <input id="program" name="program" type="text" value="{{ form.program or '' }}" required />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="{{ form.email or '' }}" />
+
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" value="{{ form.phone or '' }}" />
+
+      <label for="schedule_pref">Schedule Preference</label>
+      <select id="schedule_pref" name="schedule_pref">
+        <option value="" {% if not form.schedule_pref %}selected{% endif %}>No preference</option>
+        <option value="morning" {% if form.schedule_pref == 'morning' %}selected{% endif %}>Morning</option>
+        <option value="afternoon" {% if form.schedule_pref == 'afternoon' %}selected{% endif %}>Afternoon</option>
+        <option value="evening" {% if form.schedule_pref == 'evening' %}selected{% endif %}>Evening</option>
+      </select>
+
+      <fieldset class="col-span-2">
+        <legend>Courses</legend>
+        <div class="courses">
+          {% for course in courses %}
+            <label class="course-item">
+              <input type="checkbox" name="courses" value="{{ course.id }}" data-credits="{{ course.credits }}"
+                {% if course.id in form.courses %}checked{% endif %} />
+              <span>{{ course.id }} — {{ course.title }} ({{ course.credits }} cr)</span>
+            </label>
+          {% endfor %}
+        </div>
+        <div class="credit-summary">Total credits: <span id="credit-count">{{ total_credits or 0 }}</span></div>
+        <div class="credit-hint">Minimum 12, maximum 21 credits.</div>
+      </fieldset>
+
+      <label for="comments" class="col-span-2">Comments</label>
+      <textarea id="comments" name="comments" rows="3" class="col-span-2">{{ form.comments or '' }}</textarea>
+
+      <div class="form-actions col-span-2">
+        <button type="submit">Review Summary</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"][name="courses"]');
+      const counter = document.getElementById('credit-count');
+      function recalc() {
+        let total = 0;
+        checkboxes.forEach(cb => { if (cb.checked) total += Number(cb.dataset.credits || 0); });
+        counter.textContent = total;
+      }
+      checkboxes.forEach(cb => cb.addEventListener('change', recalc));
+    })();
+  </script>
+{% endblock %}

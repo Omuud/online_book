@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block title %}Summary | Student Registration{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Review and Confirm</h1>
+
+    <section class="grid-2">
+      <div>
+        <h3>Student</h3>
+        <ul class="kv">
+          <li><span>Student ID</span><span>{{ pending.student_id }}</span></li>
+          <li><span>Name</span><span>{{ pending.full_name }}</span></li>
+          <li><span>Email</span><span>{{ pending.email or '—' }}</span></li>
+          <li><span>Phone</span><span>{{ pending.phone or '—' }}</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Registration</h3>
+        <ul class="kv">
+          <li><span>Semester</span><span>{{ pending.semester }}</span></li>
+          <li><span>Program</span><span>{{ pending.program }}</span></li>
+          <li><span>Schedule</span><span>{{ pending.schedule_pref or '—' }}</span></li>
+          <li><span>Credits</span><span>{{ pending.total_credits }}</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <h3>Courses</h3>
+    <table class="courses-table">
+      <thead>
+        <tr><th>Code</th><th>Title</th><th>Credits</th></tr>
+      </thead>
+      <tbody>
+        {% for c in selected_courses %}
+          <tr><td>{{ c.id }}</td><td>{{ c.title }}</td><td>{{ c.credits }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if pending.comments %}
+      <h3>Comments</h3>
+      <p>{{ pending.comments }}</p>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('summary') }}" class="form-actions">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+      <button type="submit" name="action" value="edit" class="secondary">Edit</button>
+      <button type="submit" name="action" value="confirm">Confirm Registration</button>
+    </form>
+  </div>
+{% endblock %}

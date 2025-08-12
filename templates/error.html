@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block title %}Error {{ code }} | Student Registration{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Error {{ code }}</h1>
+    <p>{{ message }}</p>
+    <p><a href="{{ url_for('login') }}">Go to login</a></p>
+  </div>
+{% endblock %}
