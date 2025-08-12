@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block title %}Login | Student Registration{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Student Login</h1>
+    <form method="post" action="{{ url_for('login') }}" class="form-grid">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+
+      <label for="student_id">Student ID</label>
+      <input id="student_id" name="student_id" type="text" value="{{ student_id or '' }}" required />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <div class="form-actions">
+        <button type="submit">Login</button>
+      </div>
+
+      <p class="hint">Demo users: 1001/Passw0rd!, 1002/Test1234</p>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+[
+  {"id": "CS101", "title": "Intro to Computer Science", "credits": 3},
+  {"id": "MATH201", "title": "Calculus II", "credits": 4},
+  {"id": "ENG150", "title": "Academic Writing", "credits": 3},
+  {"id": "HIST210", "title": "Modern World History", "credits": 3},
+  {"id": "PHYS110", "title": "General Physics I", "credits": 4},
+  {"id": "BIO120", "title": "Biology Basics", "credits": 3}
+]
